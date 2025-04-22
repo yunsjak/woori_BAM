@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
+		System.out.println("test");
 		System.out.println("== 프로그램 시작 ==");
 		Scanner sc = new Scanner(System.in); // 최적화 => 자원 1번 사용
 		
