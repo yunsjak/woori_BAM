@@ -1,5 +1,7 @@
 package com.woori.BAM;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,6 +14,9 @@ public class Main {
 		int id = 1;
 		List<Article> articles = new ArrayList<>();
 
+		LocalDateTime now = LocalDateTime.now();
+		String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
 		while (true) {
 			System.out.printf("command : ");
 			String cmd = sc.nextLine().trim();
@@ -23,20 +28,7 @@ public class Main {
 				System.out.println("명령어를 입력해 주세요");
 				continue;
 			}
-			// List 메서드 중 size() 이용 (Data 유무를 객체의 개수(크기)로 변환)
-			if (cmd.equals("article list")) {
-				if (articles.isEmpty()) {
-					System.out.println("게시글이 존재하지 않습니다.");
-					continue;
-				}
-					// 배열 사용해서 get() 사용 ==> 객체를 리턴 받음
-					System.out.println("번호 | 제목  | 내용");
-					for (int i = articles.size() - 1; i >= 0; i--) {
-						Article article = articles.get(i); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
-						System.out.printf(" %d   |  %s  |  %s \n", article.id, article.title,article.body);
-					}
-					
-			} else if (cmd.equals("article write")) {
+			if (cmd.equals("article write")) {
 
 				System.out.printf("제목 : ");
 				String title = sc.nextLine().trim();
@@ -51,6 +43,40 @@ public class Main {
 				System.out.println(id + "번 글이 생성되었습니다");
 				id++;
 
+				// List 메서드 중 size() 이용 (Data 유무를 객체의 개수(크기)로 변환)
+			} else if (cmd.equals("article list")) {
+				if (articles.size() == 0) {
+					System.out.println("게시글이 존재하지 않습니다.");
+					continue;
+				}
+				// 배열 사용해서 get() 사용 ==> 객체를 리턴 받음
+				System.out.println("번호 | 제목  | 내용");
+				for (int i = articles.size() - 1; i >= 0; i--) {
+					Article article = articles.get(i); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
+					System.out.printf(" %d   |  %s  |  %s \n", article.id, article.title, article.body);
+				}
+
+			} else if (cmd.startsWith("article detail 1")) { // article detail로 시작하는지 확인
+				if (id == 1) {
+					System.out.println("1번 게시물이 존재하지 않습니다.");
+					continue;
+				}
+				Article article = articles.get(0); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
+				System.out.printf("번호 : %d \n", article.id);
+				System.out.println("날짜 : " + formatedNow);
+				System.out.printf("제목 : %s \n", article.title);
+				System.out.printf("내용 : %s \n", article.body);
+
+			} else if (cmd.equals("article detail 2")) {
+				if (id == 2) {
+					System.out.println("2번 게시물이 존재하지 않습니다.");
+					continue;
+				}
+				Article article = articles.get(1); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
+				System.out.printf("번호 : %d \n", article.id);
+				System.out.println("날짜 : " + formatedNow);
+				System.out.printf("제목 : %s \n", article.title);
+				System.out.printf("내용 : %s \n", article.body);
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다");
 			}
