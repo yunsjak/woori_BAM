@@ -60,31 +60,33 @@ public class Main2 {
 				String[] cmdBits = cmd.split(" ");
 
 				Article check = null;
+
+				int id = 0;
+
 				try {
+					id = Integer.parseInt(cmdBits[2]);
 
-					int id = Integer.parseInt(cmdBits[2]);
-
-					for (Article article : articles) {
-						if (article.id == id) { // 문자열을 정수형으로 변환
-							check = article;
-							break;
-						}
-					}
-					if (check == null) {
-						System.out.println(id + "번 게시물이 존재하지 않습니다.");
-						continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
-					}
 				} catch (NumberFormatException e) {
 					System.out.println("정수만 입력해주세요");
+					continue; // 다음 출력문 건너띄기 => while 실행
+				} catch (Exception e) {
+					System.err.println(e.getMessage()); // 그 외에 모든 exception 처리
 				}
-				try {
-					System.out.println("번호 : " + check.id);
-					System.out.println("날짜 : ~~~");
-					System.out.printf("제목 : %s \n", check.title);
-					System.out.printf("내용 : %s \n", check.body);
-				} catch (NullPointerException e) {
-					System.out.println("NullPointerException 에러 : " + e.getMessage());
+				
+				for (Article article : articles) {
+					if (article.id == id) { // 문자열을 정수형으로 변환
+						check = article;
+						break;
+					}
 				}
+				if (check == null) {
+					System.out.println(id + "번 게시물이 존재하지 않습니다.");
+					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
+				}
+				System.out.println("번호 : " + check.id);
+				System.out.println("날짜 : ~~~");
+				System.out.printf("제목 : %s \n", check.title);
+				System.out.printf("내용 : %s \n", check.body);
 
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다");
