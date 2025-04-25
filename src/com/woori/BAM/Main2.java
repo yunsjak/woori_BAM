@@ -11,7 +11,7 @@ public class Main2 {
 		System.out.println("== 프로그램 시작 ==");
 		Scanner sc = new Scanner(System.in); // 최적화 => 자원 1번 사용
 
-		int id = 1;
+		int no = 1;
 		List<Article> articles = new ArrayList<>();
 
 		LocalDateTime now = LocalDateTime.now();
@@ -35,13 +35,13 @@ public class Main2 {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine().trim();
 
-				Article article = new Article(id, title, body);
+				Article article = new Article(no, title, body);
 
 				// 진짜 저장은 아래 문장을 통해서 진행
 				articles.add(article); // List 구조인 ArrayList 객체인 articles 저장
 
-				System.out.println(id + "번 글이 생성되었습니다");
-				id++;
+				System.out.println(no + "번 글이 생성되었습니다");
+				no++;
 
 				// List 메서드 중 size() 이용 (Data 유무를 객체의 개수(크기)로 변환)
 			} else if (cmd.equals("article list")) {
@@ -58,13 +58,34 @@ public class Main2 {
 
 			} else if (cmd.startsWith("article detail ")) { // article detail로 시작하는지 확인
 				String[] cmdBits = cmd.split(" ");
-				if (cmdBits[2] == "1") {
-					System.out.println("번호 : " + cmdBits[2]);
-					System.out.println("날짜 : " + formatedNow);
-					System.out.printf("제목 : %s \n");
-					System.out.printf("내용 : %s \n");
 
+				Article check = null;
+				try {
+
+					int id = Integer.parseInt(cmdBits[2]);
+
+					for (Article article : articles) {
+						if (article.id == id) { // 문자열을 정수형으로 변환
+							check = article;
+							break;
+						}
+					}
+					if (check == null) {
+						System.out.println(id + "번 게시물이 존재하지 않습니다.");
+						continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
+					}
+				} catch (NumberFormatException e) {
+					System.out.println("정수만 입력해주세요");
 				}
+				try {
+					System.out.println("번호 : " + check.id);
+					System.out.println("날짜 : ~~~");
+					System.out.printf("제목 : %s \n", check.title);
+					System.out.printf("내용 : %s \n", check.body);
+				} catch (NullPointerException e) {
+					System.out.println("NullPointerException 에러 : " + e.getMessage());
+				}
+
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다");
 			}
