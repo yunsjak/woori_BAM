@@ -11,7 +11,7 @@ public class Main {
 		System.out.println("== 프로그램 시작 ==");
 		Scanner sc = new Scanner(System.in); // 최적화 => 자원 1번 사용
 
-		int id = 1;
+		int no = 1;
 		List<Article> articles = new ArrayList<>();
 
 		LocalDateTime now = LocalDateTime.now();
@@ -35,13 +35,13 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine().trim();
 
-				Article article = new Article(id, title, body);
+				Article article = new Article(no, title, body);
 
 				// 진짜 저장은 아래 문장을 통해서 진행
 				articles.add(article); // List 구조인 ArrayList 객체인 articles 저장
 
-				System.out.println(id + "번 글이 생성되었습니다");
-				id++;
+				System.out.println(no + "번 글이 생성되었습니다");
+				no++;
 
 				// List 메서드 중 size() 이용 (Data 유무를 객체의 개수(크기)로 변환)
 			} else if (cmd.equals("article list")) {
@@ -56,27 +56,120 @@ public class Main {
 					System.out.printf(" %d   |  %s  |  %s \n", article.id, article.title, article.body);
 				}
 
-			} else if (cmd.startsWith("article detail 1")) { // article detail로 시작하는지 확인
-				if (id == 1) {
-					System.out.println("1번 게시물이 존재하지 않습니다.");
-					continue;
-				}
-				Article article = articles.get(0); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
-				System.out.printf("번호 : %d \n", article.id);
-				System.out.println("날짜 : " + formatedNow);
-				System.out.printf("제목 : %s \n", article.title);
-				System.out.printf("내용 : %s \n", article.body);
+			} else if (cmd.startsWith("article detail ")) { // article detail로 시작하는지 확인
+				String[] cmdBits = cmd.split(" ");
 
-			} else if (cmd.equals("article detail 2")) {
-				if (id == 2) {
-					System.out.println("2번 게시물이 존재하지 않습니다.");
-					continue;
+				Article check = null;
+
+				int id = 0;
+
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+
+				} catch (NumberFormatException e) {
+					System.out.println("정수가 아닙니다. 다시 입력해주세요");
+					continue; // 다음 출력문 건너띄기 => while 실행
+				} catch (Exception e) {
+					System.err.println(e.getMessage()); // 그 외에 모든 exception 처리
 				}
-				Article article = articles.get(1); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
-				System.out.printf("번호 : %d \n", article.id);
+				
+				for (Article article : articles) {
+					if (article.id == id) { // 문자열을 정수형으로 변환
+						check = article;
+						break;
+					}
+				}
+				if (check == null) {
+					System.out.println(id + "번 게시물이 존재하지 않습니다.");
+					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
+				}
+				System.out.println("번호 : " + check.id);
 				System.out.println("날짜 : " + formatedNow);
-				System.out.printf("제목 : %s \n", article.title);
-				System.out.printf("내용 : %s \n", article.body);
+				System.out.printf("제목 : %s \n", check.title);
+				System.out.printf("내용 : %s \n", check.body);
+				
+			} else if (cmd.startsWith("article delete ")) { // article detail로 시작하는지 확인
+				String[] cmdBits = cmd.split(" ");
+
+				Article check = null;
+
+				int id = 0;
+
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+
+				} catch (NumberFormatException e) {
+					System.out.println("정수가 아닙니다. 다시 입력해주세요");
+					continue; // 다음 출력문 건너띄기 => while 실행
+				} catch (Exception e) {
+					System.err.println(e.getMessage()); // 그 외에 모든 exception 처리
+				}
+								
+				
+				// 향상된 for문은 인덱스 사용x, 일반 for문 사용 -> 수정
+				for (Article article : articles) {
+					if (article.id == id) { // 문자열을 정수형으로 변환
+						check = article;
+						break;
+					}
+				}
+				
+//				for (int i = 0; i < articles.size(); i++) {
+//					Article article = articles.get(i);
+//					if (article.id == id) {
+//						int fountIndex = i;
+//						break;
+//					}
+//				}
+//				
+				if (check == null) {
+					System.out.println(id + "번 게시물이 존재하지 않습니다.");
+					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
+				}
+				
+				articles.remove(check);
+//				articles.remove();
+				System.out.println(id + "번 게시글이 삭제 되었습니다.");
+				
+				} else if (cmd.startsWith("article modify ")) { // article detail로 시작하는지 확인
+				String[] cmdBits = cmd.split(" ");
+
+				Article check = null;
+
+				int id = 0;
+
+				try {
+					id = Integer.parseInt(cmdBits[2]);
+
+				} catch (NumberFormatException e) {
+					System.out.println("정수가 아닙니다. 다시 입력해주세요");
+					continue; // 다음 출력문 건너띄기 => while 실행
+				} catch (Exception e) {
+					System.err.println(e.getMessage()); // 그 외에 모든 exception 처리
+				}
+				
+				for (Article article : articles) {
+					if (article.id == id) { // 문자열을 정수형으로 변환
+						check = article;
+						break;
+					}
+				}
+				if (check == null) {
+					System.out.println(id + "번 게시물이 존재하지 않습니다.");
+					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
+				}
+				
+				System.out.printf("수정할 제목 : ");
+				String head = sc.nextLine().trim();
+				
+				System.out.printf("수정할 내용 : ");
+				String text = sc.nextLine().trim();
+				
+				check.title = head;
+				check.body = text;
+
+				System.out.println(id + "번 게시글이 수정 되었습니다");
+				
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다");
 			}
@@ -96,5 +189,7 @@ class Article {
 		this.title = title;
 		this.body = body;
 	}
+	
+	
 
 }
