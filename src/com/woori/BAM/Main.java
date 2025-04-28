@@ -177,16 +177,16 @@ public class Main {
 					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
 				}
 				
-				System.out.printf("수정할 제목 : ");
-				String head = sc.nextLine().trim();
-				
-				System.out.printf("수정할 내용 : ");
-				String text = sc.nextLine().trim();
-				
-				check.title = head;	// 수정된 값을 객체에 저장
-				check.body = text;
-
-				System.out.println(id + "번 게시글이 수정 되었습니다");
+//				System.out.printf("수정할 제목 : ");
+//				String head = sc.nextLine().trim();
+//				
+//				System.out.printf("수정할 내용 : ");
+//				String text = sc.nextLine().trim();
+//				
+//				check.title = head;	// 수정된 값을 객체에 저장
+//				check.body = text;
+//
+//				System.out.println(id + "번 게시글이 수정 되었습니다");
 				
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다");
