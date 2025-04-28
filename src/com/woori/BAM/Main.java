@@ -1,6 +1,5 @@
 package com.woori.BAM;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,8 +31,8 @@ public class Main {
 				String body = sc.nextLine().trim();
 
 				// 회원가입, 게시글 수정 => 공통 모듈로 이용 => 메서드 작성
-				
-				Article article = new Article(no, title, body, Util.getDateStr());
+
+				Article article = new Article(no, title, body, Util.getDateStr(), 0);
 
 				// 진짜 저장은 아래 문장을 통해서 진행
 				articles.add(article); // List 구조인 ArrayList 객체인 articles 저장
@@ -48,14 +47,15 @@ public class Main {
 					continue;
 				}
 				// 배열 사용해서 get() 사용 ==> 객체를 리턴 받음
-				System.out.println("번호 | 제목  | 내용  |  날짜");
+				System.out.println("번호 | 제목  | 내용  | 날짜                  | 조회수");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
-					System.out.printf(" %d   |  %s  |  %s  |  %s \n", article.id, article.title, article.body,
-							article.date);
+					System.out.printf(" %d   |  %s  |  %s  |  %s  |  %d \n", article.id, article.title, article.body,
+							article.date, article.viewCount);
 				}
 
 			} else if (cmd.startsWith("article detail ")) { // article detail로 시작하는지 확인
+
 				String[] cmdBits = cmd.split(" ");
 
 				Article check = null;
@@ -82,10 +82,14 @@ public class Main {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
 					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
 				}
+				
+				check.viewCount++; // 위에 null 검증을 통과 했으므로 조회수를 1 증가
+				
 				System.out.println("번호 : " + check.id);
 				System.out.println("날짜 : " + check.date);
 				System.out.printf("제목 : %s \n", check.title);
 				System.out.printf("내용 : %s \n", check.body);
+				System.out.println("조회수 : " + check.viewCount);
 
 			} else if (cmd.startsWith("article delete ")) { // article detail로 시작하는지 확인
 				String[] cmdBits = cmd.split(" ");
@@ -191,7 +195,6 @@ public class Main {
 			}
 		}
 		sc.close();
-		
 		System.out.println("== 프로그램 종료 ==");
 	}
 }
@@ -201,12 +204,14 @@ class Article {
 	String title;
 	String body;
 	String date;
+	int viewCount;
 
-	public Article(int id, String title, String body, String date) {
+	public Article(int id, String title, String body, String date, int viewCount) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.date = date;
+		this.viewCount = viewCount;
 	}
 
 }
