@@ -1,7 +1,6 @@
 package com.woori.BAM;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,9 +12,6 @@ public class Main {
 
 		int no = 1;
 		List<Article> articles = new ArrayList<>();
-
-		LocalDateTime now = LocalDateTime.now();
-		String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
 		while (true) {
 			System.out.printf("command : ");
@@ -35,7 +31,9 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine().trim();
 
-				Article article = new Article(no, title, body);
+				// 회원가입, 게시글 수정 => 공통 모듈로 이용 => 메서드 작성
+				
+				Article article = new Article(no, title, body, Util.getDateStr());
 
 				// 진짜 저장은 아래 문장을 통해서 진행
 				articles.add(article); // List 구조인 ArrayList 객체인 articles 저장
@@ -50,10 +48,11 @@ public class Main {
 					continue;
 				}
 				// 배열 사용해서 get() 사용 ==> 객체를 리턴 받음
-				System.out.println("번호 | 제목  | 내용");
+				System.out.println("번호 | 제목  | 내용  |  날짜");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
-					System.out.printf(" %d   |  %s  |  %s \n", article.id, article.title, article.body);
+					System.out.printf(" %d   |  %s  |  %s  |  %s \n", article.id, article.title, article.body,
+							article.date);
 				}
 
 			} else if (cmd.startsWith("article detail ")) { // article detail로 시작하는지 확인
@@ -72,7 +71,7 @@ public class Main {
 				} catch (Exception e) {
 					System.err.println(e.getMessage()); // 그 외에 모든 exception 처리
 				}
-				
+
 				for (Article article : articles) {
 					if (article.id == id) { // 문자열을 정수형으로 변환
 						check = article;
@@ -84,10 +83,10 @@ public class Main {
 					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
 				}
 				System.out.println("번호 : " + check.id);
-				System.out.println("날짜 : " + formatedNow);
+				System.out.println("날짜 : " + check.date);
 				System.out.printf("제목 : %s \n", check.title);
 				System.out.printf("내용 : %s \n", check.body);
-				
+
 			} else if (cmd.startsWith("article delete ")) { // article detail로 시작하는지 확인
 				String[] cmdBits = cmd.split(" ");
 
@@ -104,8 +103,7 @@ public class Main {
 				} catch (Exception e) {
 					System.err.println(e.getMessage()); // 그 외에 모든 exception 처리
 				}
-								
-				
+
 				// 향상된 for문은 인덱스 사용x, 일반 for문 사용 -> 수정
 				for (Article article : articles) {
 					if (article.id == id) { // 문자열을 정수형으로 변환
@@ -113,7 +111,7 @@ public class Main {
 						break;
 					}
 				}
-				
+
 //				//향상된 for문 이용 + foundIndex 이용 
 //			    int foundIndex = -1 ; // null과 같은 의미로 -1 로 초기화 (존재하지 않는 index 의미)
 //
@@ -127,8 +125,8 @@ public class Main {
 //			    	}
 //			    	indexId++;
 //			    }
-				
-			    // 일반 for문 이용 + foundIndx 이용 
+
+				// 일반 for문 이용 + foundIndx 이용
 //			    int foundIndex = -1 ; // null과 같은 의미로 -1 로 초기화 (존재하지 않는 index 의미)
 //				
 //				for (int i = 0; i < articles.size(); i++) {
@@ -139,17 +137,17 @@ public class Main {
 //						break;
 //					}
 //				}
-				
+
 				if (check == null) {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
 					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
 				}
-				
+
 				articles.remove(check);
 //				articles.remove(foundIndex);
 				System.out.println(id + "번 게시글이 삭제 되었습니다.");
-				
-				} else if (cmd.startsWith("article modify ")) { // article detail로 시작하는지 확인
+
+			} else if (cmd.startsWith("article modify ")) { // article detail로 시작하는지 확인
 				String[] cmdBits = cmd.split(" ");
 
 				Article check = null;
@@ -165,7 +163,7 @@ public class Main {
 				} catch (Exception e) {
 					System.err.println(e.getMessage()); // 그 외에 모든 exception 처리
 				}
-				
+
 				for (Article article : articles) {
 					if (article.id == id) { // 문자열을 정수형으로 변환
 						check = article; // article 주소 > check 복사
@@ -176,18 +174,18 @@ public class Main {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
 					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
 				}
-				
-//				System.out.printf("수정할 제목 : ");
-//				String head = sc.nextLine().trim();
-//				
-//				System.out.printf("수정할 내용 : ");
-//				String text = sc.nextLine().trim();
-//				
-//				check.title = head;	// 수정된 값을 객체에 저장
-//				check.body = text;
-//
-//				System.out.println(id + "번 게시글이 수정 되었습니다");
-				
+
+				System.out.printf("수정할 제목 : ");
+				String head = sc.nextLine().trim();
+
+				System.out.printf("수정할 내용 : ");
+				String text = sc.nextLine().trim();
+
+				check.title = head; // 수정된 값을 객체에 저장
+				check.body = text;
+
+				System.out.println(id + "번 게시글이 수정 되었습니다");
+
 			} else {
 				System.out.println("존재하지 않는 명령어 입니다");
 			}
@@ -201,13 +199,13 @@ class Article {
 	int id;
 	String title;
 	String body;
+	String date;
 
-	public Article(int id, String title, String body) {
+	public Article(int id, String title, String body, String date) {
 		this.id = id;
 		this.title = title;
 		this.body = body;
+		this.date = date;
 	}
-	
-	
 
 }
