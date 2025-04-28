@@ -114,21 +114,39 @@ public class Main {
 					}
 				}
 				
+//				//향상된 for문 이용 + foundIndex 이용 
+//			    int foundIndex = -1 ; // null과 같은 의미로 -1 로 초기화 (존재하지 않는 index 의미)
+//
+//			    int indexId = 0;
+//			    
+//			    for(Article article : articles) {
+//			    	if (article.id == id) {
+//			    		foundIndex = indexId;
+//			    		foundArticle = article; // 누락된 명령어, null 검증 위해 필요
+//			    		break;
+//			    	}
+//			    	indexId++;
+//			    }
+				
+			    // 일반 for문 이용 + foundIndx 이용 
+//			    int foundIndex = -1 ; // null과 같은 의미로 -1 로 초기화 (존재하지 않는 index 의미)
+//				
 //				for (int i = 0; i < articles.size(); i++) {
-//					Article article = articles.get(i);
+//					Article article =articles.get(i);
 //					if (article.id == id) {
-//						int fountIndex = i;
+//						foundArticle = article;  // 누락된 명령어, null 검증 위해 필요
+//						foundIndex = i;
 //						break;
 //					}
 //				}
-//				
+				
 				if (check == null) {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
 					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
 				}
 				
 				articles.remove(check);
-//				articles.remove();
+//				articles.remove(foundIndex);
 				System.out.println(id + "번 게시글이 삭제 되었습니다.");
 				
 				} else if (cmd.startsWith("article modify ")) { // article detail로 시작하는지 확인
@@ -150,7 +168,7 @@ public class Main {
 				
 				for (Article article : articles) {
 					if (article.id == id) { // 문자열을 정수형으로 변환
-						check = article;
+						check = article; // article 주소 > check 복사
 						break;
 					}
 				}
@@ -165,7 +183,7 @@ public class Main {
 				System.out.printf("수정할 내용 : ");
 				String text = sc.nextLine().trim();
 				
-				check.title = head;
+				check.title = head;	// 수정된 값을 객체에 저장
 				check.body = text;
 
 				System.out.println(id + "번 게시글이 수정 되었습니다");
