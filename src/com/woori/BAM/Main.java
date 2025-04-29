@@ -5,9 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-	static List<Article> articles = new ArrayList<>();
 
-	static int no = 1;
+	static List<Article> articles;
+	static int no;
+
+	// 시작하자마자 초기화, 관례 or 가독성
+	static {
+		articles = new ArrayList<>();
+		no = 1;
+	}
 
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
@@ -206,10 +212,9 @@ public class Main {
 		for (int i = 1; i <= 3; i++) {
 			articles.add(new Article(no++, "제목" + i, "내용" + i, Util.getDateStr(), 10 * i));
 		}
-		
+
 		// 방법1) 2줄을 1줄로 최소화
 //		articles.add(new Article(no++, "제목1", "내용1", Util.getDateStr(), 10));
-
 
 //		Article article = new Article(no++, "제목2", "내용2", Util.getDateStr(), 20);
 //		articles.add(article);
