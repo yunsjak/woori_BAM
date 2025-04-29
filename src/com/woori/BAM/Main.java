@@ -5,21 +5,15 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+	static List<Article> articles = new ArrayList<>();
+
+	static int no = 1;
 
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
 		Scanner sc = new Scanner(System.in); // 최적화 => 자원 1번 사용
 
-		List<Article> articles = new ArrayList<>();
-
-		int no = 1;
-
-		for (int i = 1; i <= 10; i++) {
-			articles.add(new Article(no++, "제목" + i, "내용" + i, Util.getDateStr(), 10 * i));
-		}
-//		articles.add(new Article(no++, "제목1", "내용1", Util.getDateStr(), 10));
-//		articles.add(new Article(no++, "제목2", "내용2", Util.getDateStr(), 20));
-//		articles.add(new Article(no++, "제목3", "내용3", Util.getDateStr(), 30));
+		makeTestData(); // 해당 메서드 위치, static 메서드인 이유
 
 		while (true) {
 			System.out.printf("command : ");
@@ -56,10 +50,10 @@ public class Main {
 					continue;
 				}
 				// 배열 사용해서 get() 사용 ==> 객체를 리턴 받음
-				System.out.println("번호   |  제목    |  내용    |    날짜               | 조회수");
+				System.out.println("번호  |  제목   |  내용   |  날짜                   | 조회수");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
-					System.out.printf(" %d    |   %s   |   %s   |   %s   |  %d \n", article.id, article.title, article.body,
+					System.out.printf(" %d    |  %s  |  %s  |   %s   |  %d \n", article.id, article.title, article.body,
 							article.date, article.viewCount);
 				}
 
@@ -205,6 +199,25 @@ public class Main {
 		}
 		sc.close();
 		System.out.println("== 프로그램 종료 ==");
+	}
+
+	private static void makeTestData() {
+		// 방법2) 고정 게시글 3개 => 10개 업그레이드 => 반복문(for문) 활용 => 시작하자마자 실행
+		for (int i = 1; i <= 3; i++) {
+			articles.add(new Article(no++, "제목" + i, "내용" + i, Util.getDateStr(), 10 * i));
+		}
+		
+		// 방법1) 2줄을 1줄로 최소화
+//		articles.add(new Article(no++, "제목1", "내용1", Util.getDateStr(), 10));
+
+
+//		Article article = new Article(no++, "제목2", "내용2", Util.getDateStr(), 20);
+//		articles.add(article);
+//		Article article = new Article(no++, "제목2", "내용2", Util.getDateStr(), 20);
+//		articles.add(article);
+//		Article article = new Article(no++, "제목2", "내용2", Util.getDateStr(), 20);
+//		articles.add(article);
+
 	}
 }
 
