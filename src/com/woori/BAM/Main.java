@@ -4,22 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Main {
+import com.woori.BAM.dto.Article;
+import com.woori.BAM.util.Util;
 
+
+public class Main {
+	
 	static List<Article> articles;
 	static int no;
-
+	
+	
 	// 시작하자마자 초기화, 관례 or 가독성
 	static {
 		articles = new ArrayList<>();
 		no = 1;
 	}
-
+	
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
 		Scanner sc = new Scanner(System.in); // 최적화 => 자원 1번 사용
 
-		makeTestData(); // 해당 메서드 위치, static 메서드인 이유
+		makeTestData();
 
 		while (true) {
 			System.out.printf("command : ");
@@ -59,8 +64,8 @@ public class Main {
 				System.out.println("번호  |  제목   |  내용   |  날짜                   | 조회수");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
-					System.out.printf(" %d    |  %s  |  %s  |   %s   |  %d \n", article.id, article.title, article.body,
-							article.date, article.viewCount);
+					System.out.printf(" %d    |  %s  |  %s  |   %s   |  %d \n", article.getId(), article.getTitle(),
+							article.getBody(), article.getDate(), article.getViewCount());
 				}
 
 			} else if (cmd.startsWith("article detail ")) { // article detail로 시작하는지 확인
@@ -82,7 +87,7 @@ public class Main {
 				}
 
 				for (Article article : articles) {
-					if (article.id == id) { // 문자열을 정수형으로 변환
+					if (article.getId() == id) { // 문자열을 정수형으로 변환
 						check = article;
 						break;
 					}
@@ -94,11 +99,11 @@ public class Main {
 
 				check.incViewCount(); // 위에 null 검증을 통과 했으므로 조회수를 1 증가
 
-				System.out.println("번호 : " + check.id);
-				System.out.println("날짜 : " + check.date);
-				System.out.printf("제목 : %s \n", check.title);
-				System.out.printf("내용 : %s \n", check.body);
-				System.out.println("조회수 : " + check.viewCount);
+				System.out.println("번호 : " + check.getId());
+				System.out.println("날짜 : " + check.getDate());
+				System.out.printf("제목 : %s \n", check.getTitle());
+				System.out.printf("내용 : %s \n", check.getBody());
+				System.out.println("조회수 : " + check.getViewCount());
 
 			} else if (cmd.startsWith("article delete ")) { // article detail로 시작하는지 확인
 				String[] cmdBits = cmd.split(" ");
@@ -119,7 +124,7 @@ public class Main {
 
 				// 향상된 for문은 인덱스 사용x, 일반 for문 사용 -> 수정
 				for (Article article : articles) {
-					if (article.id == id) { // 문자열을 정수형으로 변환
+					if (article.getId() == id) { // 문자열을 정수형으로 변환
 						check = article;
 						break;
 					}
@@ -178,7 +183,7 @@ public class Main {
 				}
 
 				for (Article article : articles) {
-					if (article.id == id) { // 문자열을 정수형으로 변환
+					if (article.getId() == id) { // 문자열을 정수형으로 변환
 						check = article; // article 주소 > check 복사
 						break;
 					}
@@ -194,8 +199,8 @@ public class Main {
 				System.out.printf("수정할 내용 : ");
 				String text = sc.nextLine().trim();
 
-				check.title = head; // 수정된 값을 객체에 저장
-				check.body = text;
+				check.setTitle(head); // 수정된 값을 객체에 저장
+				check.setBody(text);
 
 				System.out.println(id + "번 게시글이 수정 되었습니다");
 
@@ -209,7 +214,7 @@ public class Main {
 
 	private static void makeTestData() {
 		// 방법2) 고정 게시글 3개 => 10개 업그레이드 => 반복문(for문) 활용 => 시작하자마자 실행
-		for (int i = 1; i <= 3; i++) {
+		for (int i = 1; i <= 5; i++) {
 			articles.add(new Article(no++, "제목" + i, "내용" + i, Util.getDateStr(), 10 * i));
 		}
 
@@ -224,25 +229,9 @@ public class Main {
 //		articles.add(article);
 
 	}
-}
-
-class Article {
-	int id;
-	String title;
-	String body;
-	String date;
-	int viewCount;
-
-	public Article(int id, String title, String body, String date, int viewCount) {
-		this.id = id;
-		this.title = title;
-		this.body = body;
-		this.date = date;
-		this.viewCount = viewCount;
-	}
-
-	void incViewCount() {
-		this.viewCount++;
-	}
 
 }
+
+
+
+

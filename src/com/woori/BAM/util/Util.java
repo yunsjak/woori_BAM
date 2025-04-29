@@ -1,4 +1,4 @@
-package com.woori.BAM;
+package com.woori.BAM.util;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -10,7 +10,7 @@ public class Util {
 		String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 		String date = formatedNow;
 		
-		return formatedNow;
+		return date;
 
 	}
 }
