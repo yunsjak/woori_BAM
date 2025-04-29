@@ -5,12 +5,21 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
 	public static void main(String[] args) {
 		System.out.println("== 프로그램 시작 ==");
 		Scanner sc = new Scanner(System.in); // 최적화 => 자원 1번 사용
 
-		int no = 1;
 		List<Article> articles = new ArrayList<>();
+
+		int no = 1;
+
+		for (int i = 1; i <= 10; i++) {
+			articles.add(new Article(no++, "제목" + i, "내용" + i, Util.getDateStr(), 10 * i));
+		}
+//		articles.add(new Article(no++, "제목1", "내용1", Util.getDateStr(), 10));
+//		articles.add(new Article(no++, "제목2", "내용2", Util.getDateStr(), 20));
+//		articles.add(new Article(no++, "제목3", "내용3", Util.getDateStr(), 30));
 
 		while (true) {
 			System.out.printf("command : ");
@@ -47,10 +56,10 @@ public class Main {
 					continue;
 				}
 				// 배열 사용해서 get() 사용 ==> 객체를 리턴 받음
-				System.out.println("번호 | 제목  | 내용  | 날짜                  | 조회수");
+				System.out.println("번호   |  제목    |  내용    |    날짜               | 조회수");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i); // article 재사용 목적 : articles.get(i)의 기능을 저장할 변수
-					System.out.printf(" %d   |  %s  |  %s  |  %s  |  %d \n", article.id, article.title, article.body,
+					System.out.printf(" %d    |   %s   |   %s   |   %s   |  %d \n", article.id, article.title, article.body,
 							article.date, article.viewCount);
 				}
 
@@ -82,9 +91,9 @@ public class Main {
 					System.out.println(id + "번 게시물이 존재하지 않습니다.");
 					continue; // 아래 코드 출력 시 nullPoint exception 발생 방지
 				}
-				
-				check.viewCount++; // 위에 null 검증을 통과 했으므로 조회수를 1 증가
-				
+
+				check.incViewCount(); // 위에 null 검증을 통과 했으므로 조회수를 1 증가
+
 				System.out.println("번호 : " + check.id);
 				System.out.println("날짜 : " + check.date);
 				System.out.printf("제목 : %s \n", check.title);
@@ -212,6 +221,10 @@ class Article {
 		this.body = body;
 		this.date = date;
 		this.viewCount = viewCount;
+	}
+
+	void incViewCount() {
+		this.viewCount++;
 	}
 
 }
