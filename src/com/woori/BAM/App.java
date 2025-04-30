@@ -10,12 +10,12 @@ import com.woori.BAM.util.Util;
 public class App {
 	
 	// 객체 생성
-	List<Article> articles = new ArrayList<>();
+	List<Article> articles = new ArrayList<>(); // List 타입의 articles 선언
 	int no = 1;
 	
 	// 초기화 과정
 	App() {
-		articles = new ArrayList<>();
+		articles = new ArrayList<>(); // 데이터의 구조 ArrayList 형태의 객체 생성
 		no = 1;
 	}
 	

@@ -8,9 +8,8 @@ public class Util {
 		
 		LocalDateTime now = LocalDateTime.now();
 		String formatedNow = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-		String date = formatedNow;
 		
-		return date;
+		return formatedNow;
 
 	}
 }
