@@ -1,18 +1,30 @@
-package com.woori.BAM.dto;
+package com.woori.BAM.dto; 
 
 public class Article {
+    // alt + shift + a --> toogle key (멀티 편집)
+	// getter / setter 생성, 타이핑 최소화 
+	private int id;
+	private String regDate;
 	private String title;
 	private String body;
-	private String date;
-	private int viewCount;
-
-	private int id;
-	public int getId() {
+	private int viewCnt;
+	
+	
+	
+    public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getRegDate() {
+		return regDate;
+	}
+
+	public void setRegDate(String regDate) {
+		this.regDate = regDate;
 	}
 
 	public String getTitle() {
@@ -31,33 +43,24 @@ public class Article {
 		this.body = body;
 	}
 
-	public String getDate() {
-		return date;
+	public int getViewCnt() {
+		return viewCnt;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
+	public void setViewCnt(int viewCnt) {
+		this.viewCnt = viewCnt;
 	}
 
-	public int getViewCount() {
-		return viewCount;
-	}
-
-	public void setViewCount(int viewCount) {
-		this.viewCount = viewCount;
-	}
-
-
-	public Article(int id, String title, String body, String date, int viewCount) {
+	// 순서 수정 
+	public Article(int id, String regDate, String title, String body, int viewCnt) {
 		this.id = id;
+		this.regDate = regDate;
 		this.title = title;
 		this.body = body;
-		this.date = date;
-		this.viewCount = viewCount;
+		this.viewCnt = viewCnt;
 	}
-
-	public void incViewCount() {
-		this.viewCount++;
+	
+	public void increaseViewCnt() {
+		this.viewCnt++;
 	}
-
 }
